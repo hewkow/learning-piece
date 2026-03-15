@@ -1,5 +1,7 @@
 # The backtest pure Polars
 
+This polars start from question that I want to know who is faster between polars and numba, but end up learning how to think more in systematic.
+
 ## [[1.py]]
 
 * At this first stage, I still tended to think in mutable row-by-row state.
@@ -41,3 +43,9 @@
 ## Final reflection
 
 This challenge did not just teach me Polars syntax. It forced me to rethink how to model a backtest. In my Numba loop engine, many ideas live implicitly inside mutable state. In Polars, I had to make them explicit through columns, grouped trade summaries, and joins. That made me understand the structure of the backtest more deeply, even if a loop is still the more natural tool for path-dependent execution.
+
+## Fun speed test
+This is my first question that lead me to try on polars **How much faster is it?**
+
+**The Higher is Faster** 
+![[speedup_plot.png]]

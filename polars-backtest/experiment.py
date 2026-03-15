@@ -2,6 +2,7 @@ import polars as pl
 import numpy as np
 import bottleneck as bn
 from numba import njit
+import time
 
 @njit
 def generate_mockup_market(bars: int = 365) -> np.ndarray:
@@ -35,11 +36,11 @@ def generate_close_entries_exits(bars: int = 1_000_000) -> tuple[np.ndarray, np.
 
 
 
-close, entries, exits = generate_close_entries_exits(365*5)
+close, entries, exits = generate_close_entries_exits(30_000_000)
 df = pl.DataFrame({"close": close, "entries": entries, "exits": exits})
-buy_size = 5_000
+buy_size = 1_000
 init_cash = 10_000
-
+start = time.perf_counter()
 # 1.point when the entry and exit happen with the value of current close 
 df = df.with_columns(
     cash = pl.lit(init_cash),
@@ -67,7 +68,6 @@ realize_df =  (df.group_by('trade_id').agg(
     )
 )
 
-print(realize_df)
 
 # 6. forward fill first from only one point per entry
 df = df.with_columns(
@@ -91,15 +91,5 @@ df = df.with_columns(
 ).with_columns(
     equity = pl.col('cash_real') + pl.col('unrealize').fill_null(0.0)
 )
-
-print(df.schema)
-
-import plotly.graph_objects as go
-fig_eq = go.Figure()
-fig_eq.add_trace(go.Scatter(y=df['cash_earn'],mode='lines',name='cash earn'))
-fig_eq.add_trace(go.Scatter(y=df['cash_spend'],mode='lines',name='cash spend'))
-fig_eq.add_trace(go.Scatter(y=df['equity'],mode='lines',name='equity'))
-fig_eq.add_trace(go.Scatter(y=df['cash_real'],mode='lines',name='cash real'))
-fig_eq.add_trace(go.Scatter(y=df['close'],mode='lines',name='close'))
-
-fig_eq.show()
+end = time.perf_counter()
+print(f"Time = {end-start:3f} seconds")
