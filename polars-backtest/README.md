@@ -48,4 +48,4 @@ This challenge did not just teach me Polars syntax. It forced me to rethink how 
 This is my first question that lead me to try on polars **How much faster is it?**
 
 **The Higher is Faster** 
-![[speedup_plot.png]]
+![](speedup_plot.png)
