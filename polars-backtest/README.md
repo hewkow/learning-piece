@@ -2,20 +2,20 @@
 
 This polars start from question that I want to know who is faster between polars and numba, but end up learning how to think more in systematic.
 
-## [[1.py]]
+## [1.py](1.py)
 
 * At this first stage, I still tended to think in mutable row-by-row state.
 * The first thing that pressured me to change the way I think was `trade_id`. I had already added it to the DataFrame, but I still did not know how to really use it.
 * So at this stage I was still trying to calculate as much as possible row by row, while many parts were still opaque, especially cash flow and how equity should actually be resolved.
 * I also used `forward_fill()`, but at that time I did not fully realize its meaning. I only knew I needed it so later rows could use values that only existed at entry or exit points.
 
-## [[2.py]]
+## [2.py](2.py)
 
 * I got hints to try `group_by()`, and at this stage I started to see that I could move some calculations into another DataFrame that only exists at trade level.
 * This was the point where I began to see that not everything has to live in the main bar-by-bar DataFrame.
 * But even then, I still did not fully know how to use that grouped trade information in the full backtest flow.
 
-## [[experiment.py]]
+## [experiment.py](experiment.py)
 
 * At this stage, I started to realize that I could calculate actual realized results in another DataFrame created from `group_by()`, so I called it `realize_df`.
 * Then I joined it back into the main DataFrame.
