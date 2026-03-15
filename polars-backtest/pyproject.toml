@@ -1,0 +1,13 @@
+[project]
+name = "learning-piece"
+version = "0.1.0"
+description = "This is a repo to document about what I have learn by coding piece"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "bottleneck>=1.6.0",
+    "numba>=0.64.0",
+    "numpy>=2.4.3",
+    "plotly>=6.6.0",
+    "polars>=1.39.0",
+]
